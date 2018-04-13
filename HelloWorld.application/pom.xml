@@ -4,21 +4,21 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.tibco.bw</groupId>
-    <artifactId>bwcfapps.parent</artifactId>
+    <artifactId>HelloWorld.application.parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <relativePath>..\HelloWorld.application.parent</relativePath>
   </parent>
   <artifactId>HelloWorld.application</artifactId>
   <packaging>bwear</packaging>
   <properties>
-    <property.file>../pcfdev.properties</property.file>
+    <docker.property.file>docker-dev.properties</docker.property.file>
   </properties>
   <build>
     <plugins>
       <plugin>
         <groupId>com.tibco.plugins</groupId>
         <artifactId>bw6-maven-plugin</artifactId>
-        <version>1.0.0</version>
+        <version>1.3.1</version>
         <extensions>true</extensions>
       </plugin>
       <plugin>
@@ -35,26 +35,41 @@
         </executions>
         <configuration>
           <files>
-            <file>${property.file}</file>
+            <file>${docker.property.file}</file>
           </files>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.cloudfoundry</groupId>
-        <artifactId>cf-maven-plugin</artifactId>
-        <version>1.1.3</version>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.14.2</version>
         <configuration>
-          <server>${bwpcf.server}</server>
-          <target>${bwpcf.target}</target>
-          <trustSelfSignedCerts>${bwpcf.trustSelfSignedCerts}</trustSelfSignedCerts>
-          <org>${bwpcf.org}</org>
-          <space>${bwpcf.space}</space>
-          <appname>${bwpcf.appName}</appname>
-          <url>${bwpcf.url}</url>
-          <instances>${bwpcf.instances}</instances>
           <skip>false</skip>
-          <memory>${bwpcf.memory}</memory>
-          <buildpack>${bwpcf.buildpack}</buildpack>
+          <dockerHost>${bwdocker.host}</dockerHost>
+          <certPath>${bwdocker.certPath}</certPath>
+          <images>
+            <image>
+              <alias>${bwdocker.containername}</alias>
+              <name>${docker.image}</name>
+              <build>
+                <from>${bwdocker.from}</from>
+                <maintainer>${bwdocker.maintainer}</maintainer>
+                <assembly>
+                  <basedir>/</basedir>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+                <tags>
+                  <tag>latest</tag>
+                </tags>
+                <ports>
+                  <port>8080</port>
+                </ports>
+              </build>
+              <run>
+                <namingStrategy>alias</namingStrategy>
+              </run>
+            </image>
+          </images>
         </configuration>
       </plugin>
     </plugins>

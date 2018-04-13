@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.tibco.bw</groupId>
-    <artifactId>bwcfapps.parent</artifactId>
+    <artifactId>HelloWorld.application.parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <relativePath>..\HelloWorld.application.parent</relativePath>
   </parent>
   <artifactId>HelloWorld</artifactId>
   <packaging>bwmodule</packaging>
@@ -24,13 +24,13 @@
       <plugin>
         <groupId>com.tibco.plugins</groupId>
         <artifactId>bw6-maven-plugin</artifactId>
-        <version>1.0.0</version>
+        <version>1.3.1</version>
         <extensions>true</extensions>
       </plugin>
       <plugin>
-        <groupId>org.cloudfoundry</groupId>
-        <artifactId>cf-maven-plugin</artifactId>
-        <version>1.1.3</version>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.14.2</version>
         <configuration>
           <skip>true</skip>
         </configuration>
